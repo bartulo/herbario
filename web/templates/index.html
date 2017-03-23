@@ -1,0 +1,32 @@
+<html>
+{% load leaflet_tags %}
+{% load geojson_tags %}
+{% load bootstrap3 %}
+    <head>
+        {% leaflet_js %}
+        {% leaflet_css %}
+        {% bootstrap_css %}
+        <style media="screen">
+          #mapa { width:100%; height:100% }
+        </style>
+    </head>
+    <body>
+      <script type="text/javascript">
+
+           var collection = {{ plantas|geojsonfeature:"popupContent:lugar"|safe }};
+             function onEachFeature(feature, layer) {
+               if (feature.properties && feature.properties.popupContent) {
+               layer.bindPopup(feature.properties.popupContent);
+               }
+             }
+
+      function map_init(map, options) {
+          L.geoJson(collection, {onEachFeature: onEachFeature}).addTo(map);
+         }
+
+       </script>
+
+        {% leaflet_map "mapa" callback="window.map_init" %}
+
+    </body>
+</html>

@@ -1,0 +1,31 @@
+{% load bootstrap3 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+
+{% regroup plantas by familia.nombre as familia_list %}
+<div class="jumbotron">
+<div class="container">
+<ul class="list-group">
+{% for familia in familia_list %}
+    <li class="list-group-item"><h2>{{ familia.grouper }}</h2>
+    <ul class="media-list">
+        {% for item in familia.list %}
+        <li class="media">
+            <div class="media-left">
+              <a href="{{ item.foto_set.all.0.foto_med.url }}">
+                <img class="media-object" src="{{ item.foto_set.all.0.foto_peq.url }}">
+               </a>
+            </div>
+            <div class="media-body">
+              <h4 class="media-heading">{{ item.genero }} {{ item.especie }}</h4>
+              <p>{{ item.fecha_recogida }}</p>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    </li>
+{% endfor %}
+</ul>
+</div>
+</div>
