@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.contrib.gis.db import models
 from web.utils import get_upload_path
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill
+from imagekit.processors import ResizeToFill, Transpose
 
 class Municipio(models.Model):
   codigo = models.CharField(max_length=5)
@@ -85,10 +85,10 @@ class Foto(models.Model):
   )
   foto = models.ImageField(upload_to=get_upload_path)
   foto_med= ImageSpecField(source='foto',
-                           processors=[ResizeToFill(1200,900)],
+                           processors=[Transpose(),ResizeToFill(1200,900)],
 		   	   format='JPEG',
 			   options={'quality':95})
   foto_peq= ImageSpecField(source='foto',
-                           processors=[ResizeToFill(200,200)],
+                           processors=[Transpose(),ResizeToFill(200,200)],
   			   format='JPEG',
 			   options={'quality':95})
